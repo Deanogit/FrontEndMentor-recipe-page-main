@@ -124,3 +124,54 @@ We love receiving feedback! We're always looking to improve our challenges and o
 This challenge is completely free. Please share it with anyone who will find it useful for practice.
 
 **Have fun building!** 🚀
+
+### Setting up custom fonts for Next.js - TailwindCSS
+
+Next & Tailwind have done away with the tailwind.config file, now the global.css file recieves all the custom variables. I have used this to set up the custom fonts and colours in this project
+
+In order to get the fonts, next has them preloaded in "next/font/google"
+
+#### In the root layout.tsx found in the app folder:
+
+- Download fonts:
+  `import { Young_Serif, Outfit } from 'next/font/google';`
+
+- Define functions to return them - for tailwind ensure `variable: 'variable name'`
+
+`const youngSerif = Young_Serif({`
+`weight: '400',`
+`subsets: ['latin'],`
+`variable: '--font-young-serif',`
+`});`
+
+`const outfit = Outfit({`
+`subsets: ['latin'],`
+`variable: '--font-outfit-sans',`
+`});`
+
+- Inside the RootLayout function declaration:
+  `<body`
+  `className={`${outfit.variable} ${youngSerif.variable} font-sans antialiased`}`
+  `>`
+  `<Header />`
+  `{children}`
+  `<Footer />`
+  `</body>`
+
+#### Inside the global.css
+
+- declare the custom variables in @theme
+  `@theme inline {`
+  `--color-background: var(--background);`
+  `--color-foreground: var(--foreground);`
+  `--font-sans: var(--font-outfit-sans);`
+  `--font-display: var(--font-young-serif);`
+  `}`
+
+  `body {`
+  `background: var(--background);`
+  `color: var(--foreground);`
+  `font-family: var(--font-sans), sans-serif;`
+  `}`
+
+- which can be used for example in `className="font-display"`
